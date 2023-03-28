@@ -2,11 +2,11 @@
 // Execute `rustlings hint move_semantics1` or use the `hint` watch subcommand for a hint.
 
 // I AM NOT DONE
-
+// 这道题我只想说编译器太好了，直接把问题写出来了，是说不能按照变量来borrow，也就是vec1加个mut
 fn main() {
     let vec0 = Vec::new();
 
-    let vec1 = fill_vec(vec0);
+    let mut vec1 = fill_vec(vec0);
 
     println!("{} has length {} content `{:?}`", "vec1", vec1.len(), vec1);
 
