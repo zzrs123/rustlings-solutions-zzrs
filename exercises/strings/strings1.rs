@@ -2,7 +2,6 @@
 // Make me compile without changing the function signature!
 // Execute `rustlings hint strings1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 fn main() {
     let answer = current_favorite_color();
@@ -10,5 +9,6 @@ fn main() {
 }
 
 fn current_favorite_color() -> String {
-    "blue"
+    "blue".to_string()
 }
+// 这里理论知识还是很欠缺，不懂字面值和实际值的区别......还是受C影响很大。
