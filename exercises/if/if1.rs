@@ -1,7 +1,8 @@
 // if1.rs
+//
 // Execute `rustlings hint if1` or use the `hint` watch subcommand for a hint.
 
-// if语句的写法与函数的返回类型
+
 
 pub fn bigger(a: i32, b: i32) -> i32 {
     // Complete this function to return the bigger number!
@@ -10,7 +11,7 @@ pub fn bigger(a: i32, b: i32) -> i32 {
     // - additional variables
     if a > b{
         a
-    }else{
+    }else {
         b
     }
 }

@@ -1,20 +1,22 @@
 // strings3.rs
-// Execute `rustlings hint strings3` or use the `hint` watch subcommand for a hint.
+//
+// Execute `rustlings hint strings3` or use the `hint` watch subcommand for a
+// hint.
 
 
 fn trim_me(input: &str) -> String {
     // TODO: Remove whitespace from both ends of a string!
-    input.to_string().trim().to_string()
+    String::from(input.trim())
 }
 
 fn compose_me(input: &str) -> String {
     // TODO: Add " world!" to the string! There's multiple ways to do this!
-    // format!("{} {}",input, "world!")
-    format!("{} world!", input)
+    input.to_string()+" world!"
 }
+
 fn replace_me(input: &str) -> String {
     // TODO: Replace "cars" in the string with "balloons"!
-    input.replace("cars", "balloons")
+    input.to_string().replace("cars", "balloons")
 }
 
 #[cfg(test)]

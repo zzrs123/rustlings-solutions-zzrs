@@ -1,18 +1,19 @@
 // structs1.rs
+//
 // Address all the TODOs to make the tests pass!
-// Execute `rustlings hint structs1` or use the `hint` watch subcommand for a hint.
+//
+// Execute `rustlings hint structs1` or use the `hint` watch subcommand for a
+// hint.
 
-// 三种结构体
-// --1: 普通结构体：类似于C语言，声明写类型不写值，定义= + 结构体{成员名：值}
-// --2: 元组结构体：tuple(0,1,1);
-// --3: 单元结构体
+
 struct ColorClassicStruct {
-    red:i32,
-    green:i32,
-    blue:i32,
+    // TODO: Something goes here
+    red: u64,
+    green: u64,
+    blue: u64,
 }
 
-struct ColorTupleStruct(i32,i32,i32);
+struct ColorTupleStruct(u64,u64,u64);
 
 #[derive(Debug)]
 struct UnitLikeStruct;
@@ -22,13 +23,14 @@ mod tests {
     use super::*;
 
     #[test]
-    
     fn classic_c_structs() {
-        let green = ColorClassicStruct{
-            red:0,
-            green:255,
-            blue:0,
+        // TODO: Instantiate a classic c struct!
+        let green = ColorClassicStruct {
+            red: 0,
+            green: 255,
+            blue: 0,
         };
+    
 
         assert_eq!(green.red, 0);
         assert_eq!(green.green, 255);
@@ -38,8 +40,8 @@ mod tests {
     #[test]
     fn tuple_structs() {
         // TODO: Instantiate a tuple struct!
-        let green =(0,255,0);
-        
+        let green = (0,255,0);
+
         assert_eq!(green.0, 0);
         assert_eq!(green.1, 255);
         assert_eq!(green.2, 0);

@@ -1,6 +1,9 @@
 // strings1.rs
+//
 // Make me compile without changing the function signature!
-// Execute `rustlings hint strings1` or use the `hint` watch subcommand for a hint.
+//
+// Execute `rustlings hint strings1` or use the `hint` watch subcommand for a
+// hint.
 
 
 fn main() {
@@ -9,6 +12,5 @@ fn main() {
 }
 
 fn current_favorite_color() -> String {
-    "blue".to_string()
+    String::from("blue")
 }
-// 这里理论知识还是很欠缺，不懂字面值和实际值的区别......还是受C影响很大。

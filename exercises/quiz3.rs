@@ -1,56 +1,29 @@
 // quiz3.rs
+//
 // This quiz tests:
 // - Generics
 // - Traits
-// An imaginary magical school has a new report card generation system written in Rust!
-// Currently the system only supports creating report cards where the student's grade
-// is represented numerically (e.g. 1.0 -> 5.5).
-// However, the school also issues alphabetical grades (A+ -> F-) and needs
-// to be able to print both types of report card!
-
+//
+// An imaginary magical school has a new report card generation system written
+// in Rust! Currently the system only supports creating report cards where the
+// student's grade is represented numerically (e.g. 1.0 -> 5.5). However, the
+// school also issues alphabetical grades (A+ -> F-) and needs to be able to
+// print both types of report card!
+//
 // Make the necessary code changes in the struct ReportCard and the impl block
-// to support alphabetical report cards. Change the Grade in the second test to "A+"
-// to show that your changes allow alphabetical grades.
-
+// to support alphabetical report cards. Change the Grade in the second test to
+// "A+" to show that your changes allow alphabetical grades.
+//
 // Execute `rustlings hint quiz3` or use the `hint` watch subcommand for a hint.
 
 
-// pub struct ReportCard {
-//     pub grade: f32,
-//     pub student_name: String,
-//     pub student_age: u8,
-// }
-
-/*
- 需要修改ReportCard结构体，将grade字段改为泛型类型 T，
- 然后在实现中修改print方法，使其能够处理f32和char类型的grade。
- 然后在测试用例中使用一个字母类型的成绩 A+ 来测试。
- */
-
-// pub struct  ReportCard{
-//     pub grade: T,
-//     pub student_name: String,
-//     pub student_age: u8,
-// }
 pub struct ReportCard<T> {
     pub grade: T,
     pub student_name: String,
     pub student_age: u8,
 }
-// impl ReportCard {
-//     pub fn print(&self) -> String {
-//         format!("{} ({}) - achieved a grade of {}",
-//             &self.student_name, &self.student_age, &self.grade)
-//     }
-// }
 
-impl ReportCard<f32> {
-    pub fn print(&self) -> String {
-        format!("{} ({}) - achieved a grade of {}",
-            &self.student_name, &self.student_age, &self.grade)
-    }
-}
-impl ReportCard<&str> {
+impl<T: std::fmt::Display> ReportCard<T> {
     pub fn print(&self) -> String {
         format!("{} ({}) - achieved a grade of {}",
             &self.student_name, &self.student_age, &self.grade)
