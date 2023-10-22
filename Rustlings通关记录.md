@@ -14,6 +14,7 @@
   * [通过例子学 Rust 中文版](https://rustwiki.org/zh-CN/rust-by-example/)
   * [清华计算机系大一学生2022暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
   * [Rustlings](https://github.com/LearningOS/rust-rustlings-zzrs123)
+  * https://5ec.top/post/2022-rustlings/#clippy2
 
 ## 0. 熟悉rustlings
 
@@ -108,9 +109,9 @@ fn verify_test() {
   #[test]
   fn slice_out_of_array() {
       let a = [1, 2, 3, 4, 5];
-
+  
       let nice_slice = &a[1..4];
-
+  
       assert_eq!([2, 3, 4], nice_slice)
   }
   ```
@@ -119,10 +120,10 @@ fn verify_test() {
   fn main() {
       let cat = ("Furry McFurson", 3.5);
       let /* your pattern here */ (name,age)= cat;
-
+  
       println!("{} is {} years old.", name, age);
   }
-
+  
   ```
 - primitive_types6：元组数据的访问，可以通过 `.`来访问
   ```rust
@@ -131,11 +132,11 @@ fn verify_test() {
       let numbers = (1, 2, 3);
       // Replace below ??? with the tuple indexing syntax.
       let second = numbers.1;
-
+  
       assert_eq!(2, second,
           "This is not the 2nd number in the tuple!")
   }
-
+  
   ```
 
 ## 7. vecs
@@ -147,21 +148,21 @@ vecs存储在堆上。与之相比，数组是分配在栈上的。
   fn array_and_vec() -> ([i32; 4], Vec<i32>) {
       let a = [10, 20, 30, 40]; // a plain array
       let v = vec![10, 20, 30, 40];// TODO: declare your vector here with the macro for vectors
-
+  
       (a, v)
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn test_array_and_vec_similarity() {
           let (a, v) = array_and_vec();
           assert_eq!(a, v[..]);
       }
   }
-
+  
   ```
 - vecs2：体验vector的迭代器和闭包。
   - 第一个函数体验迭代器：注意遍历可变引用时，需要使用 `*` 运算符来解引用指针以获取可变引用所指向的值，解引用之后才修改的是引用指向的实际值。
@@ -295,28 +296,28 @@ fn main() {
       *z += 1000;
       assert_eq!(x, 1200);
   }
-
+  
   ```
 - move_sementics6：这道题有有多个修改方案，4月份我做的时候是对get_char的data修改为data.clone()，在string_uppercase函数中进行一个新变量的绑定，修改如下：
 
   ```rust
   fn main() {
       let  data = "Rust is great!".to_string();
-
+  
       get_char(data.clone());
-
+  
       string_uppercase(&data);
   }
-
+  
   // Should not take ownership
   fn get_char(data: String) -> char {
       data.chars().last().unwrap()
   }
-
+  
   // Should take ownership
   fn string_uppercase(data: &String) {
       let data = &data.to_uppercase();
-
+  
       println!("{}", data);
   }
   ```
@@ -326,21 +327,21 @@ fn main() {
   ```rust
   fn main() {
       let data = "Rust is great!".to_string();
-
+  
       get_char(&data);// 不获取所有权，只有使用权
-
+  
       string_uppercase(data); // 获取所有权
   }
-
+  
   // Should not take ownership
   fn get_char(data: &String) -> char {
       data.chars().last().unwrap()
   }
-
+  
   // Should take ownership
   fn string_uppercase(mut data: String) {
       data = data.to_uppercase();
-
+  
       println!("{}", data);
   }
   ```
@@ -358,16 +359,16 @@ fn main() {
       green: u64,
       blue: u64,
   }
-
+  
   struct ColorTupleStruct(u64,u64,u64);
-
+  
   #[derive(Debug)]
   struct UnitLikeStruct;
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn classic_c_structs() {
           // TODO: Instantiate a classic c struct!
@@ -382,23 +383,23 @@ fn main() {
           assert_eq!(green.green, 255);
           assert_eq!(green.blue, 0);
       }
-
+    
       #[test]
       fn tuple_structs() {
           // TODO: Instantiate a tuple struct!
           let green = (0,255,0);
-
+    
           assert_eq!(green.0, 0);
           assert_eq!(green.1, 255);
           assert_eq!(green.2, 0);
       }
-
+    
       #[test]
       fn unit_structs() {
           // TODO: Instantiate a unit-like struct!
           let unit_like_struct = UnitLikeStruct;
           let message = format!("{:?}s are fun!", unit_like_struct);
-
+    
           assert_eq!(message, "UnitLikeStructs are fun!");
       }
   }
@@ -423,7 +424,7 @@ fn main() {
       recipient_country: String,
       weight_in_grams: i32,
   }
-
+  
   impl Package {
       fn new(sender_country: String, recipient_country: String, weight_in_grams: i32) -> Package {
           if weight_in_grams <= 0 {
@@ -436,60 +437,60 @@ fn main() {
               }
           }
       }
-
+  
       fn is_international(&self) -> bool {
           // Something goes here...
           return self.sender_country != self.recipient_country;
       }
-
+  
       fn get_fees(&self, cents_per_gram: i32) ->  i32{
           // Something goes here...
           self.weight_in_grams * cents_per_gram
       }
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       #[should_panic]
       fn fail_creating_weightless_package() {
           let sender_country = String::from("Spain");
           let recipient_country = String::from("Austria");
-
+  
           Package::new(sender_country, recipient_country, -2210);
       }
-
+  
       #[test]
       fn create_international_package() {
           let sender_country = String::from("Spain");
           let recipient_country = String::from("Russia");
-
+  
           let package = Package::new(sender_country, recipient_country, 1200);
-
+  
           assert!(package.is_international());
       }
-
+  
       #[test]
       fn create_local_package() {
           let sender_country = String::from("Canada");
           let recipient_country = sender_country.clone();
-
+  
           let package = Package::new(sender_country, recipient_country, 1200);
-
+  
           assert!(!package.is_international());
       }
-
+  
       #[test]
       fn calculate_transport_fees() {
           let sender_country = String::from("Spain");
           let recipient_country = String::from("Spain");
-
+  
           let cents_per_gram = 3;
-
+  
           let package = Package::new(sender_country, recipient_country, 1500);
-
+  
           assert_eq!(package.get_fees(cents_per_gram), 4500);
           assert_eq!(package.get_fees(cents_per_gram * 2), 9000);
       }
@@ -512,7 +513,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
       Move,
       ChangeColor,
   }
-
+  
   fn main() {
       println!("{:?}", Message::Quit);
       println!("{:?}", Message::Echo);
@@ -530,13 +531,13 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
       Move{ x: i32, y: i32 }, // 匿名结构体
       ChangeColor(i32, i32, i32), //3个i32 
   }
-
+  
   impl Message {
       fn call(&self) {
           println!("{:?}", self);
       }
   }
-
+  
   fn main() {
       let messages = [
           Message::Move { x: 10, y: 30 },
@@ -544,12 +545,12 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           Message::ChangeColor(200, 255, 255),
           Message::Quit,
       ];
-
+  
       for message in &messages {
           message.call();
       }
   }
-
+  
   ```
 - enums3：考察了枚举复杂类型和匹配的结合，需要使用args来替代enums复杂成员的内容。
   ```rust
@@ -560,34 +561,34 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
       Move(Point), // 结构体
       ChangeColor((u8, u8, u8)), //3个u8 
   }
-
+  
   struct Point {
       x: u8,
       y: u8,
   }
-
+  
   struct State {
       color: (u8, u8, u8),
       position: Point,
       quit: bool,
       message: String
   }
-
+  
   impl State {
       fn change_color(&mut self, color: (u8, u8, u8)) {
           self.color = color;
       }
-
+  
       fn quit(&mut self) {
           self.quit = true;
       }
-
+  
       fn echo(&mut self, s: String) { self.message = s }
-
+  
       fn move_position(&mut self, p: Point) {
           self.position = p;
       }
-
+  
       fn process(&mut self, message: Message) {
           // TODO: create a match expression to process the different message
           // variants
@@ -601,11 +602,11 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           }
       }
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn test_match_message_call() {
           let mut state = State {
@@ -618,7 +619,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           state.process(Message::Echo(String::from("hello world")));
           state.process(Message::Move(Point { x: 10, y: 15 }));
           state.process(Message::Quit);
-
+  
           assert_eq!(state.color, (255, 0, 255));
           assert_eq!(state.position.x, 10);
           assert_eq!(state.position.y, 15);
@@ -636,7 +637,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
       let answer = current_favorite_color();
       println!("My current favorite color is {}", answer);
   }
-
+  
   fn current_favorite_color() -> String {
       String::from("blue")
   }
@@ -651,7 +652,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           println!("That is not a color word I know.");
       }
   }
-
+  
   fn is_a_color_word(attempt: &str) -> bool {
       attempt == "green" || attempt == "blue" || attempt == "red"
   }
@@ -662,12 +663,12 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
       // TODO: Remove whitespace from both ends of a string!
       String::from(input.trim())
   }
-
+  
   fn compose_me(input: &str) -> String {
       // TODO: Add " world!" to the string! There's multiple ways to do this!
       input.to_string()+" world!"
   }
-
+  
   fn replace_me(input: &str) -> String {
       // TODO: Replace "cars" in the string with "balloons"!
       input.to_string().replace("cars", "balloons")
@@ -681,7 +682,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
   fn string(arg: String) {
       println!("{}", arg);
   }
-
+  
   fn main() {
       string_slice("blue");
       string("red".to_string());
@@ -713,18 +714,18 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
       // TODO: Fix these use statements
       pub use self::fruits::PEAR as fruit;
       pub use self::veggies::CUCUMBER as veggie;
-
+  
       mod fruits {
           pub const PEAR: &'static str = "Pear";
           pub const APPLE: &'static str = "Apple";
       }
-
+  
       mod veggies {
           pub const CUCUMBER: &'static str = "Cucumber";
           pub const CARROT: &'static str = "Carrot";
       }
   }
-
+  
   fn main() {
       println!(
           "favorite snacks: {} and {}",
@@ -756,14 +757,14 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
   ```rust
   fn fruit_basket() -> HashMap<String, u32> {
       let mut basket = HashMap::new();// TODO: declare your hash map here.
-
+  
       // Two bananas are already given for you :)
       basket.insert(String::from("banana"), 2);
-
+  
       // TODO: Put more fruits in your basket here.
       basket.insert(String::from("apple"),1);
       basket.insert(String::from("orange"),3);
-
+  
       basket
   }
   ```
@@ -793,13 +794,13 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
 
   ```rust
   use std::collections::HashMap;
-
+  
   // A structure to store the goal details of a team.
   struct Team {
       goals_scored: u8,
       goals_conceded: u8,
   }
-
+  
   fn build_scores_table(results: String) -> HashMap<String, Team> {
       // The name of the team is the key and its associated struct is the value.
       let mut scores: HashMap<String, Team> = HashMap::new();
@@ -828,7 +829,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           );
           team_1.goals_scored += team_1_score;
           team_1.goals_conceded += team_2_score;
-
+  
           // Update the team 2 score
           let team_2 = scores.entry(team_2_name.clone()).or_insert(Team {
               goals_scored: 0,
@@ -837,14 +838,14 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           team_2.goals_scored += team_2_score;
           team_2.goals_conceded += team_1_score;
       }
-
+  
       scores
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       fn get_results() -> String {
           let results = "".to_string()
               + "England,France,4,2\n"
@@ -853,11 +854,11 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
               + "Germany,England,2,1\n";
           results
       }
-
+  
       #[test]
       fn build_scores() {
           let scores = build_scores_table(get_results());
-
+  
           let mut keys: Vec<&String> = scores.keys().collect();
           keys.sort();
           assert_eq!(
@@ -865,7 +866,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
               vec!["England", "France", "Germany", "Italy", "Poland", "Spain"]
           );
       }
-
+  
       #[test]
       fn validate_team_score_1() {
           let scores = build_scores_table(get_results());
@@ -873,7 +874,7 @@ rust 中有一个约定俗成的规则，使用 `new` 来作为构造器的名�
           assert_eq!(team.goals_scored, 5);
           assert_eq!(team.goals_conceded, 4);
       }
-
+  
       #[test]
       fn validate_team_score_2() {
           let scores = build_scores_table(get_results());
@@ -959,11 +960,11 @@ mod tests {
           }
       }
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn check_icecream() {
           assert_eq!(maybe_icecream(9), Some(5));
@@ -972,7 +973,7 @@ mod tests {
           assert_eq!(maybe_icecream(22), Some(0));
           assert_eq!(maybe_icecream(25), None);
       }
-
+  
       #[test]
       fn raw_value() {
           // TODO: Fix this test. How do you get at the value contained in the
@@ -991,24 +992,24 @@ mod tests {
       fn simple_option() {
           let target = "rustlings";
           let optional_target = Some(target);
-
+  
           // TODO: Make this an if let statement whose value is "Some" type
           if let Some(word) = optional_target {
               assert_eq!(word, target);
           }
       }
-
+  
       #[test]
       fn layered_option() {
           let range = 10;
           let mut optional_integers: Vec<Option<i8>> = vec![None];
-
+  
           for i in 1..(range + 1) {
               optional_integers.push(Some(i));
           }
-
+  
           let mut cursor = range;
-
+  
           // TODO: make this a while let statement - remember that vector.pop also
           // adds another layer of Option<T>. You can stack `Option<T>`s into
           // while let and if let.
@@ -1016,7 +1017,7 @@ mod tests {
               assert_eq!(integer, cursor);
               cursor -= 1;
           }
-
+  
           assert_eq!(cursor, 0);
       }
   }
@@ -1027,10 +1028,10 @@ mod tests {
       SomeValue(String),
       AnotherValue(u32),
   }
-
+  
   fn main() {
       let my_var = MyEnum::SomeValue(String::from("Hello, Rust"));
-
+  
       match my_var {
           MyEnum::SomeValue(s) => {
               println!("Got ownership of string: {}", s);
@@ -1041,10 +1042,10 @@ mod tests {
               // 在此分支中，我们获取了 u32 的所有权，可以自由地使用它
           }
       }
-
+  
       // 注意，在 `match` 表达式之后，`my_var` 的所有权并未返回，因为在所有可能的分支中都已经被取走。
   }
-
+  
   ```
 
 ## 16. error_handlings
@@ -1062,11 +1063,11 @@ mod tests {
           Ok(format!("Hi! My name is {}", name))
       }
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn generates_nametag_text_for_a_nonempty_name() {
           assert_eq!(
@@ -1074,7 +1075,7 @@ mod tests {
               Ok("Hi! My name is Beyoncé".into())
           );
       }
-
+  
       #[test]
       fn explains_why_generating_nametag_text_fails() {
           assert_eq!(
@@ -1103,24 +1104,24 @@ mod tests {
 
   ```rust
   use std::num::ParseIntError;
-
+  
   pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
       let processing_fee = 1;
       let cost_per_item = 5;
       let qty = item_quantity.parse::<i32>()?;
-
+  
       Ok(qty * cost_per_item + processing_fee)
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn item_quantity_is_a_valid_number() {
           assert_eq!(total_cost("34"), Ok(171));
       }
-
+  
       #[test]
       fn item_quantity_is_an_invalid_number() {
           assert_eq!(
@@ -1152,10 +1153,10 @@ mod tests {
   ```rust
   use std::error::Error;
   use std::fs::File;
-
+  
   fn main() -> Result<(), Box<dyn Error>> {
       let f = File::open("hello.txt")?;
-
+  
       Ok(())
   }
   ```
@@ -1171,14 +1172,14 @@ mod tests {
 
   ```rust
   use std::num::ParseIntError;
-
+  
   // This is a custom error type that we will be using in `parse_pos_nonzero()`.
   #[derive(PartialEq, Debug)]
   enum ParsePosNonzeroError {
       Creation(CreationError),
       ParseInt(ParseIntError),
   }
-
+  
   impl ParsePosNonzeroError {
       fn from_creation(err: CreationError) -> ParsePosNonzeroError {
           ParsePosNonzeroError::Creation(err)
@@ -1188,25 +1189,25 @@ mod tests {
           ParsePosNonzeroError::ParseInt(err)
       }
   }
-
+  
   fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
       // TODO: change this to return an appropriate error instead of panicking
       // when `parse()` returns an error.
       let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parseint)?;
       PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
   }
-
+  
   // Don't change anything below this line.
-
+  
   #[derive(PartialEq, Debug)]
   struct PositiveNonzeroInteger(u64);
-
+  
   #[derive(PartialEq, Debug)]
   enum CreationError {
       Negative,
       Zero,
   }
-
+  
   impl PositiveNonzeroInteger {
       fn new(value: i64) -> Result<PositiveNonzeroInteger, CreationError> {
           match value {
@@ -1216,11 +1217,11 @@ mod tests {
           }
       }
   }
-
+  
   #[cfg(test)]
   mod test {
       use super::*;
-
+  
       #[test]
       fn test_parse_error() {
           // We can't construct a ParseIntError, so we have to pattern match.
@@ -1229,7 +1230,7 @@ mod tests {
               Err(ParsePosNonzeroError::ParseInt(_))
           ));
       }
-
+  
       #[test]
       fn test_negative() {
           assert_eq!(
@@ -1237,7 +1238,7 @@ mod tests {
               Err(ParsePosNonzeroError::Creation(CreationError::Negative))
           );
       }
-
+  
       #[test]
       fn test_zero() {
           assert_eq!(
@@ -1245,7 +1246,7 @@ mod tests {
               Err(ParsePosNonzeroError::Creation(CreationError::Zero))
           );
       }
-
+  
       #[test]
       fn test_positive() {
           let x = PositiveNonzeroInteger::new(42);
@@ -1282,7 +1283,7 @@ mod tests {
       x: T,
       y: T,
   }
-
+  
   impl<T> Point<T> {
       fn x(&self) -> &T {
           &self.x
@@ -1298,7 +1299,7 @@ mod tests {
   (self.x.powi(2) + self.y.powi(2)).sqrt()
   }
   }
-
+  
   ```
 
   解答如下：
@@ -1307,7 +1308,7 @@ mod tests {
   struct Wrapper<T> {
       value: T,
   }
-
+  
   impl<T> Wrapper<T> {
       pub fn new(value: T) -> Self {
           Wrapper { value }
@@ -1489,22 +1490,22 @@ mod tests {
   pub fn is_even(num: i32) -> bool {
       num % 2 == 0
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn is_true_when_even() {
           assert!(is_even(2));
       }
-
+  
       #[test]
       fn is_false_when_odd() {
           assert!(!is_even(5));
       }
   }
-
+  
   ```
 - tests4: #[should_panic]特性。当被测试代码panic时来进行处理。
 
@@ -1517,9 +1518,9 @@ mod tests {
   ```rust
   fn main() {
       let my_fav_fruits = vec!["banana", "custard apple", "avocado", "peach", "raspberry"];
-
+  
       let mut my_iterable_fav_fruits = my_fav_fruits.iter();   // TODO: Step 1
-
+  
       assert_eq!(my_iterable_fav_fruits.next(), Some(&"banana"));
       assert_eq!(my_iterable_fav_fruits.next(), Some(&"custard apple"));     // TODO: Step 2
       assert_eq!(my_iterable_fav_fruits.next(), Some(&"avocado"));
@@ -1541,7 +1542,7 @@ mod tests {
           Some(first) => first.to_uppercase().collect::<String>() + c.as_str(),
       }
   }
-
+  
   // Step 2.
   // Apply the `capitalize_first` function to a slice of string slices.
   // Return a vector of strings.
@@ -1550,7 +1551,7 @@ mod tests {
       // vec![]
       words.iter().map(|&word| capitalize_first(word)).collect()
   }
-
+  
   // Step 3.
   // Apply the `capitalize_first` function again to a slice of string slices.
   // Return a single string.
@@ -1559,27 +1560,27 @@ mod tests {
       // String::new()
       words.iter().map(|&word| capitalize_first(word)).collect()
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn test_success() {
           assert_eq!(capitalize_first("hello"), "Hello");
       }
-
+  
       #[test]
       fn test_empty() {
           assert_eq!(capitalize_first(""), "");
       }
-
+  
       #[test]
       fn test_iterate_string_vec() {
           let words = vec!["hello", "world"];
           assert_eq!(capitalize_words_vector(&words), ["Hello", "World"]);
       }
-
+  
       #[test]
       fn test_iterate_into_string() {
           let words = vec!["hello", " ", "world"];
@@ -1595,13 +1596,13 @@ mod tests {
       NotDivisible(NotDivisibleError),
       DivideByZero,
   }
-
+  
   #[derive(Debug, PartialEq, Eq)]
   pub struct NotDivisibleError {
       dividend: i32,
       divisor: i32,
   }
-
+  
   // Calculate `a` divided by `b` if `a` is evenly divisible by `b`.
   // Otherwise, return a suitable error.
   pub fn divide(a: i32, b: i32) -> Result<i32, DivisionError> {
@@ -1615,11 +1616,11 @@ mod tests {
               divisor:  b,
           }));
       }
-
+  
       Ok(a/b)
-
+  
   }
-
+  
   // Complete the function and return a value of the correct type so the test
   // passes.
   // Desired output: Ok([1, 11, 1426, 3])
@@ -1629,7 +1630,7 @@ mod tests {
       // numbers.into_iter().map(|n| divide(n, 27)).collect()
       division_results
   }
-
+  
   // Complete the function and return a value of the correct type so the test
   // passes.
   // Desired output: [Ok(1), Ok(11), Ok(1426), Ok(3)]
@@ -1638,16 +1639,16 @@ mod tests {
       let division_results = numbers.into_iter().map(|n| divide(n, 27)).collect();
       division_results
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn test_success() {
           assert_eq!(divide(81, 9), Ok(9));
       }
-
+  
       #[test]
       fn test_not_divisible() {
           assert_eq!(
@@ -1658,22 +1659,22 @@ mod tests {
               }))
           );
       }
-
+  
       #[test]
       fn test_divide_by_0() {
           assert_eq!(divide(81, 0), Err(DivisionError::DivideByZero));
       }
-
+  
       #[test]
       fn test_divide_0_by_something() {
           assert_eq!(divide(0, 81), Ok(0));
       }
-
+  
       #[test]
       fn test_result_with_list() {
           assert_eq!(format!("{:?}", result_with_list()), "Ok([1, 11, 1426, 3])");
       }
-
+  
       #[test]
       fn test_list_of_results() {
           assert_eq!(
@@ -1698,18 +1699,18 @@ mod tests {
       // Execute `rustlings hint iterators4` for hints.
       (1..num+1).product()
       // or (1..=num).product()
-
+  
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn factorial_of_0() {
           assert_eq!(1, factorial(0));
       }
-
+  
       #[test]
       fn factorial_of_1() {
           assert_eq!(1, factorial(1));
@@ -1718,7 +1719,7 @@ mod tests {
       fn factorial_of_2() {
           assert_eq!(2, factorial(2));
       }
-
+  
       #[test]
       fn factorial_of_4() {
           assert_eq!(24, factorial(4));
@@ -1729,14 +1730,14 @@ mod tests {
 
   ```rust
   use std::collections::HashMap;
-
+  
   #[derive(Clone, Copy, PartialEq, Eq)]
   enum Progress {
       None,
       Some,
       Complete,
   }
-
+  
   fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
       let mut count = 0;
       for val in map.values() {
@@ -1746,16 +1747,16 @@ mod tests {
       }
       count
   }
-
+  
   fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
       // map is a hashmap with String keys and Progress values.
       // map = { "variables1": Complete, "from_str": None, ... }
       // 要使用迭代器来重现计数功能，可以使用filter方法过滤出具有指定进度值的元素，
       // 并使用count方法计算满足条件的元素数量。
       map.values().filter(|&progress| *progress == value).count()
-
+  
   }
-
+  
   fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
       let mut count = 0;
       for map in collection {
@@ -1767,7 +1768,7 @@ mod tests {
       }
       count
   }
-
+  
   fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
       // collection is a slice of hashmaps.
       // collection = [{ "variables1": Complete, "from_str": None, ... },
@@ -1782,29 +1783,29 @@ mod tests {
       .filter(|&progress| *progress == value)
       .count()
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn count_complete() {
           let map = get_map();
           assert_eq!(3, count_iterator(&map, Progress::Complete));
       }
-
+  
       #[test]
       fn count_some() {
           let map = get_map();
           assert_eq!(1, count_iterator(&map, Progress::Some));
       }
-
+  
       #[test]
       fn count_none() {
           let map = get_map();
           assert_eq!(2, count_iterator(&map, Progress::None));
       }
-
+  
       #[test]
       fn count_complete_equals_for() {
           let map = get_map();
@@ -1816,7 +1817,7 @@ mod tests {
               );
           }
       }
-
+  
       #[test]
       fn count_collection_complete() {
           let collection = get_vec_map();
@@ -1825,24 +1826,24 @@ mod tests {
               count_collection_iterator(&collection, Progress::Complete)
           );
       }
-
+  
       #[test]
       fn count_collection_some() {
           let collection = get_vec_map();
           assert_eq!(1, count_collection_iterator(&collection, Progress::Some));
       }
-
+  
       #[test]
       fn count_collection_none() {
           let collection = get_vec_map();
           assert_eq!(4, count_collection_iterator(&collection, Progress::None));
       }
-
+  
       #[test]
       fn count_collection_equals_for() {
           let progress_states = vec![Progress::Complete, Progress::Some, Progress::None];
           let collection = get_vec_map();
-
+  
           for progress_state in progress_states {
               assert_eq!(
                   count_collection_for(&collection, progress_state),
@@ -1850,10 +1851,10 @@ mod tests {
               );
           }
       }
-
+  
       fn get_map() -> HashMap<String, Progress> {
           use Progress::*;
-
+  
           let mut map = HashMap::new();
           map.insert(String::from("variables1"), Complete);
           map.insert(String::from("functions1"), Complete);
@@ -1861,22 +1862,22 @@ mod tests {
           map.insert(String::from("arc1"), Some);
           map.insert(String::from("as_ref_mut"), None);
           map.insert(String::from("from_str"), None);
-
+  
           map
       }
-
+  
       fn get_vec_map() -> Vec<HashMap<String, Progress>> {
           use Progress::*;
-
+  
           let map = get_map();
-
+  
           let mut other = HashMap::new();
           other.insert(String::from("variables2"), Complete);
           other.insert(String::from("functions2"), Complete);
           other.insert(String::from("if1"), Complete);
           other.insert(String::from("from_into"), None);
           other.insert(String::from("try_from_into"), None);
-
+  
           vec![map, other]
       }
   }
@@ -1897,7 +1898,7 @@ mod tests {
       Cons(i32, Box<List>),// 避免DST
       Nil,
   }
-
+  
   fn main() {
       println!("This is an empty cons list: {:?}", create_empty_list());
       println!(
@@ -1905,27 +1906,27 @@ mod tests {
           create_non_empty_list()
       );
   }
-
+  
   pub fn create_empty_list() -> List {
       // todo!()
       List::Nil
   }
-
+  
   pub fn create_non_empty_list() -> List {
       // todo!()
       // 1->2->nil
       List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))))
   }
-
+  
   #[cfg(test)]
   mod tests {
       use super::*;
-
+  
       #[test]
       fn test_create_empty_list() {
           assert_eq!(List::Nil, create_empty_list())
       }
-
+  
       #[test]
       fn test_create_non_empty_list() {
           assert_ne!(create_empty_list(), create_non_empty_list())
@@ -2000,14 +2001,14 @@ mod tests {
           };
       }
   }
-
+  
   #[macro_use]
   use macros::my_macro;
-
+  
   fn main() {
       my_macro!();
   }
-
+  
   ```
 - macros4: 修改宏本身了。但是这个问题是上一个分支里没有加分号。
 
@@ -2021,7 +2022,7 @@ mod tests {
           println!("Look at this other macro: {}", $val);
       };
   }
-
+  
   fn main() {
       my_macro!();
       my_macro!(7777);
@@ -2037,13 +2038,13 @@ clippy是一个rust代码分析工具，可以这么认为。可以检查代码�
 - clippy1:参考 [https://rust-lang.github.io/rust-clippy/master/index.html#approx_constant](https://rust-lang.github.io/rust-clippy/master/index.html#approx_constant)，当检查到近似于 [`std::f32::consts`](https://doc.rust-lang.org/stable/std/f32/consts/#constants) 或 [`std::f64::consts`](https://doc.rust-lang.org/stable/std/f64/consts/#constants) 的常量时就会报错。因为默认 `#[deny(clippy::approx_constant)]` 选项是开启的。我们可以用 `f32::consts::PI` 替代
   ```rust
   use std::f32;
-
+  
   fn main() {
       let pi = f32::consts::PI;
       let radius = 5.00f32;
-
+  
       let area = pi * f32::powi(radius, 2);
-
+  
       println!(
           "The area of a circle with radius {radius:.2} is {area:.5}!",
       )
@@ -2059,7 +2060,7 @@ clippy是一个rust代码分析工具，可以这么认为。可以检查代码�
       }
       println!("{res}" );
   }
-
+  
   ```
 - clippy3:做到这发现clippy大致是在解决rust中可能写的很蠢的代码。比如下面if的判断中unwrap用的很垃圾，然后arr的切片生成中-3后面没有逗号，然后resize方法使用错误等等
   ```rust
@@ -2069,17 +2070,17 @@ clippy是一个rust代码分析工具，可以这么认为。可以检查代码�
       // if my_option.is_none() {
       //     my_option.unwrap();
       // }
-
+  
       let my_arr = &[
           -1, -2, -3,
           -4, -5, -6
       ];
       println!("My array! Here it is: {my_arr:?}", );
-
+  
       let  mut my_empty_vec = vec![1, 2, 3, 4, 5];
       my_empty_vec.clear();
       println!("This Vec is empty, see? {my_empty_vec:?}" );
-
+  
       let mut value_a = 45;
       let mut value_b = 66;
       // Let's swap these two!
@@ -2184,7 +2185,7 @@ clippy是一个rust代码分析工具，可以这么认为。可以检查代码�
             Ok(Color{red:tuple.0 as u8,green:tuple.1 as u8,blue:tuple.2 as u8})
         }
     }
-
+    
     // Array implementation
     impl TryFrom<[i16; 3]> for Color {
         type Error = IntoColorError;
@@ -2193,7 +2194,7 @@ clippy是一个rust代码分析工具，可以这么认为。可以检查代码�
             Color::try_from((arr[0],arr[1],arr[2]))
         }
     }
-
+    
     // Slice implementation
     impl TryFrom<&[i16]> for Color {
         type Error = IntoColorError;
@@ -2229,13 +2230,13 @@ clippy是一个rust代码分析工具，可以这么认为。可以检查代码�
     fn byte_counter<T: AsRef<str>>(arg: T) -> usize {
         arg.as_ref().as_bytes().len()
     }
-
+    
     // Obtain the number of characters (not bytes) in the given argument.
     // TODO: Add the AsRef trait appropriately as a trait bound.
     fn char_counter<T: AsRef<str>>(arg: T) -> usize {
         arg.as_ref().chars().count()
     }
-
+    
     // Squares a number using as_mut().
     // TODO: Add the appropriate trait bound.
     fn num_sq<T: AsMut<u32>>(arg: &mut T) {
